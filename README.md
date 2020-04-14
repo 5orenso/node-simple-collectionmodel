@@ -20,8 +20,6 @@ Add schemas for all collections you want to use.
 Create a Mongoose init file `MongooseHelper`:
 
 ```javascript
-'use strict';
-
 const { CollectionModel } = require('node-simple-collectionmodel');
 
 const loginUserSchema = require('./loginUserSchema');
@@ -38,8 +36,6 @@ module.exports = CollectionModel;
 Then extend your collection classes.
 
 ```javascript
-'use strict';
-
 const { CollectionModel } = require('node-simple-collectionmodel');
 
 class LoginUser extends CollectionModel {
@@ -62,7 +58,7 @@ const CollectionModel = require('./MongooseHelper');
 CollectionModel.connectGlobal({
     config: {
         mongo: {
-            url: 'mongodb://localhost:27017/mySuperDB?safe=true&auto_reconnect=true&poolSize=20','
+            url: 'mongodb://localhost:27017/mySuperDB?safe=true&auto_reconnect=true&poolSize=20'
         }
     }
 });
