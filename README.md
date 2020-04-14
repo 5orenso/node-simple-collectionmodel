@@ -1,13 +1,82 @@
-# Boilerplate for your brand new Node.js module - NPM ready
+# A Node.js collection model for mongoose stuff
 
-[![Build Status](https://travis-ci.org/5orenso/node-simple-boilerplate.svg?branch=master)](https://travis-ci.org/5orenso/node-simple-boilerplate)
-[![Coverage Status](https://coveralls.io/repos/github/5orenso/node-simple-boilerplate/badge.svg?branch=master)](https://coveralls.io/github/5orenso/node-simple-boilerplate?branch=master)
-[![GitHub version](https://badge.fury.io/gh/5orenso%2Fnode-simple-boilerplate.svg)](https://badge.fury.io/gh/5orenso%2Fnode-simple-boilerplate)
-[![npm version](https://badge.fury.io/js/node-simple-boilerplate.svg)](https://badge.fury.io/js/node-simple-boilerplate)
+[![Build Status](https://travis-ci.org/5orenso/node-simple-collectionmodel.svg?branch=master)](https://travis-ci.org/5orenso/node-simple-collectionmodel)
+[![Coverage Status](https://coveralls.io/repos/github/5orenso/node-simple-collectionmodel/badge.svg?branch=master)](https://coveralls.io/github/5orenso/node-simple-collectionmodel?branch=master)
+[![GitHub version](https://badge.fury.io/gh/5orenso%2Fnode-simple-collectionmodel.svg)](https://badge.fury.io/gh/5orenso%2Fnode-simple-collectionmodel)
+[![npm version](https://badge.fury.io/js/node-simple-collectionmodel.svg)](https://badge.fury.io/js/node-simple-collectionmodel)
 
-A small boilerplate to help you kickstart your Node.js module projects with unit tests, integration tests, code coverage, continous integration, code hinting and code style enforcement.
+## TL;DR
 
-I've also made everything ready for you so it's easy to publish your new module to the [npmjs.com server](https://npmjs.com).
+### Installation
+
+```bash
+npm install node-simple-collectionmodel --save
+```
+
+### Usage Express Style
+
+Add schemas for all collections you want to use.
+
+Create a Mongoose init file `MongooseHelper`:
+
+```javascript
+'use strict';
+
+const { CollectionModel } = require('node-simple-collectionmodel');
+
+const loginUserSchema = require('./loginUserSchema');
+const sequenceSchema = require('./sequenceSchema');
+
+CollectionModel.addSchemas({
+    loginUser: loginUserSchema,
+    sequence: sequenceSchema,
+});
+
+module.exports = CollectionModel;
+```
+
+Then extend your collection classes.
+
+```javascript
+'use strict';
+
+const { CollectionModel } = require('node-simple-collectionmodel');
+
+class LoginUser extends CollectionModel {
+    constructor(config) {
+        super('loginUser', config);
+        this.searchFields = ['email'];
+        this.searchFieldsNum = ['id'];
+        this.defaultSort = { email: -1 };
+    }
+}
+
+module.exports = LoginUser;
+```
+
+Connection to the database globally inside server startup.
+
+```javascript
+const CollectionModel = require('./MongooseHelper');
+
+CollectionModel.connectGlobal({
+    config: {
+        mongo: {
+            url: 'mongodb://localhost:27017/mySuperDB?safe=true&auto_reconnect=true&poolSize=20','
+        }
+    }
+});
+```
+
+Usage of collection class.
+
+```javascript
+const email = 'sorenso@gmail.com';
+const loginUser = new LoginUser();
+myUser = await loginUser.findOne({ email });
+console.log(myUser);
+```
+
 
 ## Helper modules in use:
 
@@ -25,14 +94,12 @@ __Retire__
 Scanner detecting the use of JavaScript libraries with known vulnerabilities.
 
 
-### Howto to get started
+### Howto to get started with contributions
+
 ```bash
-$ git clone git@github.com:5orenso/node-simple-boilerplate.git
-$ cd node-simple-boilerplate/
+$ git clone git@github.com:5orenso/node-simple-collectionmodel.git
+$ cd node-simple-collectionmodel/
 $ npm install
-$ bash ./install.sh
-# Follow the instruction.
-#     Example path input: ../my-new-module
 ```
 
 Start developing. Remember to start watching your files:
@@ -50,13 +117,13 @@ $ eslint --fix lib/utilities.js
 ### Howto contribute
 
 ```bash
-$ git clone git@github.com:5orenso/node-simple-boilerplate.git
+$ git clone git@github.com:5orenso/node-simple-collectionmodel.git
 ```
 Do your magic and create a pull request.
 
 
 ### Howto report issues
-Use the [Issue tracker](https://github.com/5orenso/node-simple-boilerplate/issues)
+Use the [Issue tracker](https://github.com/5orenso/node-simple-collectionmodel/issues)
 
 
 ### Howto update CHANGELOG.md
@@ -118,11 +185,12 @@ Bug reports should always be done with a new issue.
 
 ## Other Resources
 
-* [AWS Basic setup with Cloudformation](https://github.com/5orenso/aws-cloudformation-base)
-* [AWS Lambda boilerplate](https://github.com/5orenso/aws-lambda-boilerplate)
-* [Automated AWS Lambda update](https://github.com/5orenso/aws-lambda-autodeploy-lambda)
-* [AWS API Gateway setup with Cloudformation](https://github.com/5orenso/aws-cloudformation-api-gateway)
-* [AWS IoT setup with Cloudformation](https://github.com/5orenso/aws-cloudformation-iot)
+* [Node.js utilities](https://github.com/5orenso/node-simple-utilities)
+* [Node.js Preact utilities](https://github.com/5orenso/preact-util)
+* [Node.js Preact Mobx storemodel](https://github.com/5orenso/preact-storemodel)
+* [Node.js boilerplate for Express](https://github.com/5orenso/node-express-boilerplate)
+* [Node.js boilerplate for modules](https://github.com/5orenso/node-simple-boilerplate)
+* [Node.js boilerplate for Preact](https://github.com/5orenso/preact-boilerplate)
 
 
 ## More about the author
