@@ -37,7 +37,7 @@
   "keywords": [],
   "dependencies": {
     "mongoose": "^5.9.9",
-    "node-simple-utilities": "^1.0.0"
+    "node-simple-utilities": "^1.2.0"
   },
   "jest": {
     "verbose": true,
