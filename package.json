@@ -1,7 +1,7 @@
 {
   "name": "node-simple-collectionmodel",
   "description": "A simpel and nice collection model for mongoose stuff.",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "homepage": "https://github.com/5orenso/node-simple-collectionmodel",
   "repository": {
     "type": "git",
